@@ -3,92 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESP32 LED Control</title>
+    <title>Hello World</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
             background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
         }
         h1 {
             color: #333;
         }
-        button {
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-        #status {
-            margin-top: 20px;
-            font-size: 18px;
-        }
     </style>
 </head>
 <body>
-    <h1>ESP32 LED Control</h1>
-    <button id="connect">Connect to ESP32</button>
-    <button id="on" disabled>Turn ON LED</button>
-    <button id="off" disabled>Turn OFF LED</button>
-    <div id="status">Status: Disconnected</div>
-
-    <script>
-        let device;
-        let characteristic;
-
-        const SERVICE_UUID = 'b9dc2de1-81d7-4d97-ad71-ebfe4f150eb4';
-        const CHARACTERISTIC_UUID = 'e86d08ce-5158-468a-889e-0a470ea3d651';
-
-        document.getElementById('connect').addEventListener('click', async () => {
-            try {
-                device = await navigator.bluetooth.requestDevice({
-                    filters: [{ name: 'ESP32_LED_Control' }],
-                    optionalServices: [SERVICE_UUID]
-                });
-                
-                const server = await device.gatt.connect();
-                const service = await server.getPrimaryService(SERVICE_UUID);
-                characteristic = await service.getCharacteristic(CHARACTERISTIC_UUID);
-
-                document.getElementById('on').disabled = false;
-                document.getElementById('off').disabled = false;
-                document.getElementById('status').textContent = 'Status: Connected';
-
-            } catch (error) {
-                console.error('Connection failed!', error);
-            }
-        });
-
-        document.getElementById('on').addEventListener('click', async () => {
-            const encoder = new TextEncoder();
-            await characteristic.writeValue(encoder.encode('ON'));
-        });
-
-        document.getElementById('off').addEventListener('click', async () => {
-            const encoder = new TextEncoder();
-            await characteristic.writeValue(encoder.encode('OFF'));
-        });
-
-        device?.addEventListener('gattserverdisconnected', () => {
-            document.getElementById('on').disabled = true;
-            document.getElementById('off').disabled = true;
-            document.getElementById('status').textContent = 'Status: Disconnected';
-        });
-    </script>
+    <h1>Hello</h1>
 </body>
 </html>
